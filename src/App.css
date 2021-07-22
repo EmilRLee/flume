@@ -1,38 +1,74 @@
-.App {
+.sidebar{
+  position:fixed;
+  height: 100%;
+  width: 15%;
+  background-color: #335c67;
+  top: 0px;
+}
+.workspace {
+  color: black;
+  position: relative;
+  left: 15%;
+  top: 0px;
+  height: 100%;
+  width: 80%;
+}
+.app-header {
+  height: 60px;
+  width: 85%;
+  position: relative;
+  z-index: 100;
+  top: 0px;
+  left: 15%;
+  border-bottom-style: solid ;
+  border-bottom-color: #EDF6F9;
+  border-bottom-width: 2px;
+}
+.header-user {
+  position: absolute;
+  top: -15px;
+  right: 10px;
+}
+.header-username {
+  position: relative;
+  left: -100px;
+}
+.header-user-title {
+  position: relative;
+  left: -100px;
+}
+.header-user-image {
+  position: relative;
+  top: -70px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.header-reminder {
+  position: absolute;
+  right: 300px;
+  top: 0px;
+  height: 40px;
+  width: 40px;
+  background-color: #e9ecef;
+  border-radius: 50%;
+}
+.reminder-icon {
+  position: relative;
+  left: 5px;
+  top: 10px;
+}
+.reminder-count {
+  position: absolute;
+  right: 300px;
+  top: 0px;
+  height: 20px;
+  width: 20px;
+  background-color: #57a773;
+  border-radius: 50%;
   text-align: center;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.issueHead {
+  background-color: #e9ecef;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
