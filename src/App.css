@@ -6,12 +6,13 @@
   top: 0px;
 }
 .workspace {
-  color: black;
   position: relative;
+  color: black;
   left: 15%;
   top: 0px;
   height: 100%;
   width: 80%;
+  margin-left: 20px;
 }
 .app-header {
   height: 60px;
@@ -29,6 +30,16 @@
   top: -15px;
   right: 10px;
 }
+.headermenu {
+  position: absolute;
+  top: 45px;
+  right: 0px;
+}
+.user-menu {
+  position: absolute;
+  top: 45px;
+  right: 0px;
+}
 .header-username {
   position: relative;
   left: -100px;
@@ -39,9 +50,10 @@
 }
 .header-user-image {
   position: relative;
-  top: -70px;
-  width: 50px;
-  height: 50px;
+  top: -80px;
+  right: 15px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
 }
 .header-reminder {
