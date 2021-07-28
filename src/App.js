@@ -6,6 +6,7 @@ import {
 import Main from './Main';
 import Login from './Login';
 import Logout from './Logout';
+import ServiceScheduler from './ServiceScheduler';
 
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
           </Route>
           <Route path="/logout">
             <Logout />
+          </Route>
+          <Route path="/service">
+            <ServiceScheduler />
           </Route>
         </Switch>
     </Router>
