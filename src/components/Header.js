@@ -34,7 +34,7 @@ export default class Header extends Component {
     render() {
 
         
-        let title = (this.state.user.isAdmin === true) ? "admin" : "user";
+        let title = (this.state.user.isAdmin === true) ? "Admin" : "user";
         //let username = this.data.username;
         
         //console.log(this.props.data[0])
@@ -43,7 +43,7 @@ export default class Header extends Component {
                 <div className="app-header">
                     <Row>
                         <Col className="header-search">
-                            <p>search area</p>
+                            <h2>{sessionStorage.getItem("organization")}</h2>
                         </Col>
                         <Col  className="header-vip">
                             <div className="header-reminder">

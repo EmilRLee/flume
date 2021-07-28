@@ -18,7 +18,12 @@ export default class Workspace extends Component {
             titleData: null,
             descData: null,
             statusData: null,
+            assigneeData: null,
+            customerData: null,
             assignees: [
+
+            ],
+            customers: [
 
             ]
         }
@@ -40,7 +45,20 @@ export default class Workspace extends Component {
                     
                 )
             });
-
+            await axios.get(`http://localhost:3001/api/getCustomers/${sessionStorage.getItem("organization")}`)
+            .then((res) =>{
+                this.setState({
+                    customers: res.data.customers
+                })
+                return(
+                    res.data.customers.map(customer => {
+                        return(
+                            console.log(customer)
+                        )
+                    })
+                    
+                )
+            });
     }
         
     
@@ -68,7 +86,7 @@ export default class Workspace extends Component {
             message: `Issue "${this.state.titleData}" has been created `
         });
         
-        axios.get(`http://localhost:3001/api/createIssue/${this.state.titleData}/${this.state.statusData}/${this.state.descData}`)
+        axios.get(`http://localhost:3001/api/createIssue/${this.state.titleData}/${this.state.descData}/${this.state.statusData}/${this.state.customerData}/${this.state.assigneeData}`)
             .then((res) => {
                 if(res.status === 200){
                     return(
@@ -99,6 +117,12 @@ export default class Workspace extends Component {
         const assignees = this.state.assignees.map((assignee) => {
             return(
                 <option>{assignee}</option>
+            )
+        });
+
+        const customers = this.state.customers.map((customer) => {
+            return(
+                <option>{customer}</option>
             )
         });
             
@@ -154,11 +178,12 @@ export default class Workspace extends Component {
                         </FormGroup>
                         <FormGroup>
                             <Label for="issueDescription">Description</Label>
-                            <Input type="textarea" name="description" id="issueDescription" placeholder="description of issue"/>
+                            <Input type="textarea" name="descData" id="issueDescription" placeholder="description of issue" onChange={(e) => this.handleChange(e)}/>
                         </FormGroup>
                         <FormGroup>
                             <Label for="issuestatus">Status</Label>
-                            <Input type="select" name="status" id="issuestatus">
+                            <Input type="select" name="statusData" id="issuestatus" onChange={(e) => this.handleChange(e)}>
+                            <option></option>
                             <option>Open</option>
                             <option>Closed</option>
                             <option>In Progress</option>
@@ -166,12 +191,18 @@ export default class Workspace extends Component {
                             </Input>
                         </FormGroup>
                         <FormGroup>
+                            <Label for="assignees">customer:</Label>
+                            <Input type="select" name="customerData" id="customers" onChange={(e) => this.handleChange(e)}>
+                            <option></option>
+                            {customers}
+                            </Input> 
+                        </FormGroup>
+                        <FormGroup>
                             <Label for="assignees">Assign to:</Label>
-                            <Input type="select" name="assignees" id="assignees">
+                            <Input type="select" name="assigneeData" id="assignees" onChange={(e) => this.handleChange(e)}>
+                            <option></option>
                             {assignees}
-                            <option>nunya</option>
-                            </Input>
-                            
+                            </Input> 
                         </FormGroup>
                         <Button onClick={() => this.closeModal()}> Cancel </Button>
                         <Button type="submit"> Create</Button>

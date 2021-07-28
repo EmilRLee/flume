@@ -5,9 +5,9 @@ const IssueSchema = new Schema({
     title: String,
     description: String,
     status: String,
-    createdAt: Date,
+    customer: String,
     assignee: String,
-    customer: String
+    createdAt: {type: Date, default: Date.now}
 });
 
 module.exports = mongoose.model('Issue', IssueSchema);

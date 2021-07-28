@@ -2,7 +2,7 @@
   position:fixed;
   height: 100%;
   width: 15%;
-  background-color: #335c67;
+  background-color: #052242;
   top: 0px;
 }
 .workspace {
@@ -81,6 +81,14 @@
   text-align: center;
 }
 .issueHead {
-  background-color: #e9ecef;
+  background-color: #4b9ff3;
+}
+.issueList {
+  position: relative;
+  margin-bottom: 50px;
+}
+.issueListItem:hover {
+  background-color: #d3e8ff;
+  
 }
 

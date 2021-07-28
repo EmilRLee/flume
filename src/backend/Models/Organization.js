@@ -4,7 +4,8 @@ const orgs = mongoose.Schema({
     name: String,
     hq: String,
     isPremium: Boolean,
-    users: [String]
+    users: [String],
+    customers: [String]
 });
 
 module.exports = mongoose.model("orgs", orgs);

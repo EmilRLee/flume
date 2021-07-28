@@ -38,13 +38,14 @@ export default class IssueList extends Component {
         const issues = this.state.data.map(issue => {
             //console.log(issue.description)
             return (
-                <TableRow key={issue._id}>
-                    <TableCell align="left">{issue.description}</TableCell>
+                <TableRow key={issue._id} className="issueListItem">
+                    <TableCell align="left">{issue.title}</TableCell>
+                    <TableCell align="center">{issue.description}</TableCell>
                     <TableCell align="center"><FaComments size={25} /></TableCell>
+                    <TableCell align="center">{issue.customer}</TableCell>
                     <TableCell align="center">{issue.status}</TableCell>
                     <TableCell align="center">{issue.createdAt}</TableCell>
-                    <TableCell align="center">{issue.assignee}</TableCell>
-                    <TableCell align="right">{issue._id}</TableCell>
+                    <TableCell align="right">{issue.assignee}</TableCell>
                 </TableRow>
             )
         });
@@ -54,16 +55,17 @@ export default class IssueList extends Component {
 
         return (
             <div>
-                <TableContainer component={Paper}>
+                <TableContainer component={Paper} className="issueList">
                     <Table aria-label="simple table">
                         <TableHead className="issueHead">
                             <TableRow>
-                                <TableCell>Description</TableCell>
-                                <TableCell align="right">Conversations</TableCell>
-                                <TableCell align="right">Status</TableCell>
-                                <TableCell align="right">Date Created</TableCell>
-                                <TableCell align="right">Assignees</TableCell>
-                                <TableCell>Issue ID</TableCell>
+                            <TableCell align="left">Title</TableCell>
+                                <TableCell align="center">Description</TableCell>
+                                <TableCell align="center">Conversations</TableCell>
+                                <TableCell align="center">Customer</TableCell>
+                                <TableCell align="center">Status</TableCell>
+                                <TableCell align="center">Date Created</TableCell>
+                                <TableCell align="right">Assigned To</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>

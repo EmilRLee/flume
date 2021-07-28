@@ -100,6 +100,15 @@ router.get('/getAssignees/:org', async (req, res) => {
 
 });
 
+router.get('/getCustomers/:org', async (req, res) => {
+    const org = Organization.findOne({"name": req.params.org}, "customers", (error, customers) => {
+        console.log(customers)
+        res.send(customers)
+    });
+    
+
+});
+
 // ------- CREATE ACTIONS ------------  
 
 router.post('/register', async (req, res) => {
@@ -123,11 +132,12 @@ router.post('/register', async (req, res) => {
 
 });
 
-router.get('/createIssue', async (req, res) => {
+router.get('/createIssue/:title/:description/:status/:customer/:assignee', async (req, res) => {
     console.log("Creating New Issue");
-    console.log(req.body);
-    const issue = new Issue(req.body);
+    console.log(req.params);
+    const issue = new Issue(req.params);
     await issue.save();
+    res.sendStatus(200);
 });
 
 
