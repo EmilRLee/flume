@@ -3,6 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import fakeimage from '../assets/images/fake3.jpeg';
 import { FaBell } from 'react-icons/fa';
 import UserMenu from './UserMenu';
+import { Popover } from '@material-ui/core';
 const axios = require('axios').default;
 
 
@@ -11,14 +12,16 @@ export default class Header extends Component {
     constructor(props){
         super(props);
         this.state = {
-            user: []
+            user: [],
+            anchorEl: null,
+            open: false
         }
     }
 
 
     async componentDidMount(){
 
-        await axios.get(`http://localhost:3001/api/user/${sessionStorage.getItem("user")}`)
+        await axios.get(`http://localhost:3001/user/${sessionStorage.getItem("user")}`)
             .then((res) =>{
                 this.setState({
                     user: res.data,
@@ -31,9 +34,22 @@ export default class Header extends Component {
     }
 
 
+    handleClick(e){
+        this.setState({
+            anchorEl: e.currentTarget,
+            open: true
+        }); 
+    };
+
+    handleClose(){
+        this.setState({
+            open: false
+        });
+    }
+
     render() {
 
-        
+       let reminderCount = this.state.alertcount ? <div className="reminder-count"></div> : false ;
         let title = (this.state.user.isAdmin === true) ? "Admin" : "user";
         //let username = this.data.username;
         
@@ -47,9 +63,9 @@ export default class Header extends Component {
                         </Col>
                         <Col  className="header-vip">
                             <div className="header-reminder">
-                                <FaBell className="reminder-icon" size={25}/>
+                                <FaBell className="reminder-icon" size={25} onClick={(e) => this.handleClick(e)}/>
                             </div>
-                            <div className="reminder-count">{this.state.alertcount}</div>
+                            {reminderCount}
                             <div className="header-messages">
 
                             </div>
@@ -60,7 +76,22 @@ export default class Header extends Component {
                                 <UserMenu />
                             </div>
                         </Col>
-                    </Row> 
+                    </Row>
+                    <Popover 
+                        anchorEl={this.state.anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        open={this.state.open}
+                        onClose={() => this.handleClose()}
+                        >
+                        No Alerts
+                    </Popover>
                 </div>
             </div>
         )

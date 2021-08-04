@@ -1,9 +1,13 @@
+#root{
+  background-color: #fdfdfd;
+}
 .sidebar{
   position:fixed;
   height: 100%;
   width: 15%;
-  background-color: #052242;
+  background-color: #fdfdfd;
   top: 0px;
+  box-shadow:0px 0px 1px #aaa8aa
 }
 .workspace {
   position: relative;
@@ -13,17 +17,17 @@
   height: 100%;
   width: 80%;
   margin-left: 20px;
+  background-color: #fdfdfd;
 }
 .app-header {
   height: 60px;
   width: 85%;
-  position: relative;
+  position: absolute;
   z-index: 100;
   top: 0px;
   left: 15%;
-  border-bottom-style: solid ;
-  border-bottom-color: #EDF6F9;
-  border-bottom-width: 2px;
+  background-color: #fdfdfd;
+  box-shadow:0px 1px 0px #f3f0f3
 }
 .header-user {
   position: absolute;
@@ -32,12 +36,13 @@
 }
 .headermenu {
   position: absolute;
-  top: 45px;
+  top: 35px;
   right: 0px;
+  height: 20px;
 }
 .user-menu {
   position: absolute;
-  top: 45px;
+  top: 10px;
   right: 0px;
 }
 .header-username {
@@ -50,16 +55,16 @@
 }
 .header-user-image {
   position: relative;
-  top: -80px;
-  right: 15px;
-  width: 60px;
-  height: 60px;
+  top: -65px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
 }
 .header-reminder {
   position: absolute;
   right: 300px;
-  top: 0px;
+  top: 10px;
   height: 40px;
   width: 40px;
   background-color: #e9ecef;
@@ -67,28 +72,35 @@
 }
 .reminder-icon {
   position: relative;
-  left: 5px;
+  left: 7.25px;
   top: 10px;
 }
 .reminder-count {
   position: absolute;
-  right: 300px;
-  top: 0px;
-  height: 20px;
-  width: 20px;
-  background-color: #57a773;
+  right: 308px;
+  top: 17px;
+  height: 10px;
+  width: 10px;
+  background-color: #df3131;
   border-radius: 50%;
   text-align: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #e9ecef;
 }
 .issueHead {
-  background-color: #4b9ff3;
+  background-color: #dee2e7;
 }
 .issueList {
   position: relative;
   margin-bottom: 50px;
 }
 .issueListItem:hover {
-  background-color: #d3e8ff;
-  
+  background-color: #e9ecef;
 }
-
+.addEvent {
+  position: absolute;
+  top:72px;
+  z-index: 100;
+  left: 200px;
+}

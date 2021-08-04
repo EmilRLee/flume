@@ -41,7 +41,7 @@ export default class LoginForm extends Component {
             email: email,
             password: pass
         })
-        await axios.get(`http://localhost:3001/api/login/${email}/${pass}`)
+        await axios.get(`http://localhost:3001/login/${email}/${pass}`)
             .then((res) => {
                 console.log(res.data)
                 if(res.data.isvalid === true){

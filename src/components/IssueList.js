@@ -21,7 +21,7 @@ export default class IssueList extends Component {
     }
 
     async componentDidMount(){
-        await axios.get('http://localhost:3001/api/issues')
+        await axios.get('http://localhost:3001/issues')
             .then((res) =>{
                 this.setState({
                     data: res.data

@@ -8,8 +8,11 @@ const Bcrypt = require('bcryptjs');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const Organization = require('../Models/Organization');
+const Event = require('../Models/Event');
 
 /* ALL READ ------------ ALL READS   -------------------- */
+
+
 //Gets all Users
 router.get("/users", async (req,res) => {
     try{
@@ -37,6 +40,7 @@ router.get("/alerts", async (req,res) => {
     } catch{
         console.log(err)
     }
+    
 });
 //Get User image
 router.get("/image/:id", async (req, res) =>{
@@ -54,7 +58,7 @@ router.get("/issues", async (req,res) => {
     } catch{
         console.log(err)
     }
-    
+
 });
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -109,6 +113,15 @@ router.get('/getCustomers/:org', async (req, res) => {
 
 });
 
+router.get('/getEvents/:org', async (req, res) => {
+    const events = Event.find({"org": req.params.org}, "title start end customer", (error, events) => {
+        console.log(events)
+        res.send(events)
+    });
+    
+
+});
+
 // ------- CREATE ACTIONS ------------  
 
 router.post('/register', async (req, res) => {
@@ -140,5 +153,12 @@ router.get('/createIssue/:title/:description/:status/:customer/:assignee', async
     res.sendStatus(200);
 });
 
+router.get('/createEvent/:title/:start/:end/:org/:cus', async (req, res) => {
+    console.log("Creating New Event");
+    console.log(req.params);
+    const event = new Event(req.params);
+    await event.save();
+    res.sendStatus(200);
+});
 
 module.exports = router

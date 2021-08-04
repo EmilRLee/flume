@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Menu,MenuItem} from '@material-ui/core';
-import { ArrowDropDown } from '@material-ui/icons';
+import { FaEllipsisV } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 export default class UserMenu extends Component {
@@ -40,7 +40,7 @@ export default class UserMenu extends Component {
                         <Link to="/logout">Logout</Link>
                     </MenuItem>
                 </Menu>
-                <ArrowDropDown id="usermenu" className="headermenu" aria-haspopup="true" onClick={(e) => this.handleClick(e)}/>
+                <FaEllipsisV id="usermenu" className="headermenu" aria-haspopup="true" onClick={(e) => this.handleClick(e)}/>
             </div>
         )
     }

@@ -6,7 +6,7 @@ import Modal from 'react-modal';
 import {Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
 import { Snackbar } from '@material-ui/core';
 import axios from 'axios';
-
+import io from 'socket.io-client';
 
 export default class Workspace extends Component {
     constructor(props){
@@ -14,7 +14,7 @@ export default class Workspace extends Component {
         this.state = {
             modalOpen: false,
             showSnackbar: false,
-            message: null,
+            snackMessage: null,
             titleData: null,
             descData: null,
             statusData: null,
@@ -27,11 +27,12 @@ export default class Workspace extends Component {
 
             ]
         }
+        this.socket = io.connect('http://localhost:3001')
     }
 
     async componentDidMount(){
         
-        await axios.get(`http://localhost:3001/api/getAssignees/${sessionStorage.getItem("organization")}`)
+        await axios.get(`http://localhost:3001/getAssignees/${sessionStorage.getItem("organization")}`)
             .then((res) =>{
                 this.setState({
                     assignees: res.data.users
@@ -45,7 +46,7 @@ export default class Workspace extends Component {
                     
                 )
             });
-            await axios.get(`http://localhost:3001/api/getCustomers/${sessionStorage.getItem("organization")}`)
+            await axios.get(`http://localhost:3001/getCustomers/${sessionStorage.getItem("organization")}`)
             .then((res) =>{
                 this.setState({
                     customers: res.data.customers
@@ -59,6 +60,11 @@ export default class Workspace extends Component {
                     
                 )
             });
+            
+            this.socket.on('message', (message) => {
+                console.log(message)
+            })
+           
     }
         
     
@@ -83,10 +89,10 @@ export default class Workspace extends Component {
         this.setState({
             modalOpen: false,
             showSnackbar: true,
-            message: `Issue "${this.state.titleData}" has been created `
+            snackmessage: `Issue "${this.state.titleData}" has been created `
         });
         
-        axios.get(`http://localhost:3001/api/createIssue/${this.state.titleData}/${this.state.descData}/${this.state.statusData}/${this.state.customerData}/${this.state.assigneeData}`)
+        axios.get(`http://localhost:3001/createIssue/${this.state.titleData}/${this.state.descData}/${this.state.statusData}/${this.state.customerData}/${this.state.assigneeData}`)
             .then((res) => {
                 if(res.status === 200){
                     return(
@@ -155,7 +161,7 @@ export default class Workspace extends Component {
                     open={this.state.showSnackbar}
                     autoHideDuration={6000}
                     onClose={() => this.closeSnackbar()}
-                    message={this.state.message}
+                    message={this.state.snackMessage}
                 />
                 <Modal
                     shouldCloseOnOverlayClick={false}
