@@ -4,9 +4,10 @@ import IssueList from './IssueList';
 import {FaPlusSquare} from 'react-icons/fa';
 import Modal from 'react-modal';
 import {Button, Form, FormGroup, Label, Input, FormText} from 'reactstrap';
-import { Snackbar } from '@material-ui/core';
+import { Snackbar, Drawer } from '@material-ui/core';
 import axios from 'axios';
 import io from 'socket.io-client';
+
 
 export default class Workspace extends Component {
     constructor(props){
@@ -14,12 +15,20 @@ export default class Workspace extends Component {
         this.state = {
             modalOpen: false,
             showSnackbar: false,
+            showChat: false,
             snackMessage: null,
             titleData: null,
             descData: null,
             statusData: null,
             assigneeData: null,
             customerData: null,
+            issueData: null,
+            chatMessage: null,
+            chatRoomName: null,
+            chatRoom: null,
+            chat: [
+                
+            ],
             assignees: [
 
             ],
@@ -60,10 +69,23 @@ export default class Workspace extends Component {
                     
                 )
             });
-            
-            this.socket.on('message', (message) => {
-                console.log(message)
+            await axios.get('http://localhost:3001/issues')
+            .then((res) =>{
+                this.setState({
+                    issueData: res.data
+                });
+                //this.state.data.map(issue => console.log(issue))
+                //console.log(this.state);
             })
+            
+            //comeback to this
+            //this.socket.emit('join', )
+            this.socket.on("message", ({name, room, message}) => {
+                this.setState({
+                    chat: [...this.state.chat, {name, room, message}]
+                })
+                console.log("got server message")
+            });
            
     }
         
@@ -119,6 +141,49 @@ export default class Workspace extends Component {
         });
     }
 
+    async renderChat(issueId, issueTitle){
+        this.socket.emit('join', issueId)
+        await axios.get(`http://localhost:3001/messages/${issueId}`)
+            .then((res) =>{
+                this.setState({
+                    chat: res.data,
+                    chatRoom: issueId,
+                    chatRoomName: issueTitle
+                });
+            });
+        this.openChat()
+    }
+    
+    updateChat(e){
+        e.preventDefault();
+        this.socket.emit("newMessage", {name: sessionStorage.getItem("user"), room: this.state.chatRoom, message: this.state.chatMessage})
+        console.log({name: sessionStorage.getItem("user"), room: this.state.chatRoom, message: this.state.chatMessage})
+    }
+
+    openChat(){
+        this.setState({
+            showChat: true
+        })
+    }
+    
+    closeChat() {
+        this.setState({
+            showChat: false
+        })
+    }
+    
+    messages() {
+        return (
+            this.state.chat.map(({name, message}) => {
+                return(
+                    `${name}: ${message}`
+                )
+            })
+        )
+       console.log(this.state.chat)
+       console.log("WACK ASS SHIT")
+    }
+
     render() {
         const assignees = this.state.assignees.map((assignee) => {
             return(
@@ -152,8 +217,8 @@ export default class Workspace extends Component {
                     <Row>
                         <Col>
                             <h1>Issues</h1>
-                            <FaPlusSquare size={25} onClick={() => this.openModal()}/>Create Issue
-                            <IssueList />
+                            <FaPlusSquare size={25} onClick={() => this.openModal()}/>Create Issue <Button onClick={() => this.openChat()}>open chat</Button>
+                            {this.state.issueData ? <IssueList data={this.state.issueData} renderChat={this}/> : false}
                         </Col>
                     </Row>
                 </Container>
@@ -214,6 +279,24 @@ export default class Workspace extends Component {
                         <Button type="submit"> Create</Button>
                     </Form>
                 </Modal>
+                <Drawer anchor="bottom" open={this.state.showChat} onClose={() => this.closeChat()} className="issue-convos">
+                    <h1>Conversations for {this.state.chatRoomName}</h1>
+                    <p>{this.messages()}</p>
+                    <Form onSubmit={(e) => this.updateChat(e)}>
+                        <FormGroup>
+                            <Label for="issueTitle">New message</Label>
+                            <Input 
+                                type="text" 
+                                name="chatMessage" 
+                                id="chatMessage" 
+                                placeholder="New Message" 
+                                onChange={(e) => this.handleChange(e)}
+                            />
+                        </FormGroup>
+                        <Button onClick={() => this.closeChat()}> Cancel </Button>
+                        <Button type="submit"> Create</Button>
+                    </Form>
+                </Drawer>
             </div>
         )
     }

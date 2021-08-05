@@ -104,3 +104,7 @@
   z-index: 100;
   left: 200px;
 }
+.issue-convos {
+  position: relative;
+  height: 90%;
+}

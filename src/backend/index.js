@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const routes = require('./Controllers/routes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const Message = require('./Models/Message')
 
 
 mongoose.connect("mongodb://localhost:27017/flume", { useNewUrlParser: true})
@@ -20,8 +21,18 @@ mongoose.connect("mongodb://localhost:27017/flume", { useNewUrlParser: true})
         app.use(routes)
 
         io.on('connection', (socket) => {
-            console.log('WOWO'); // ojIckSD2jqNzOqIrAGzL
-            socket.emit('message', "hello")
+            socket.on('join', (room) => {
+                if(room){
+                    socket.join(room)
+                    console.log(room)
+                }
+            })
+            socket.on('newMessage', async ({name, room, message}) => {
+                console.log("got newMessage")
+                const newMessage = new Message({name, room, message});
+                await newMessage.save();
+                io.in(room).emit("message", {name, room, message})
+            })
         })
         app.set('socketio', io);
         

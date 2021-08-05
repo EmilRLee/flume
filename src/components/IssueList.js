@@ -13,35 +13,22 @@ export default class IssueList extends Component {
 
     constructor(props){
         super(props);
-        this.state = {
-            data: [
-                
-            ]
-        }
+        
     }
 
-    async componentDidMount(){
-        await axios.get('http://localhost:3001/issues')
-            .then((res) =>{
-                this.setState({
-                    data: res.data
-                });
-                //this.state.data.map(issue => console.log(issue))
-                //console.log(this.state);
-            })
-    }
+
 
     
 
     render() {
 
-        const issues = this.state.data.map(issue => {
+        const issues = this.props.data.map(issue => {
             //console.log(issue.description)
             return (
                 <TableRow key={issue._id} className="issueListItem">
                     <TableCell align="left">{issue.title}</TableCell>
                     <TableCell align="center">{issue.description}</TableCell>
-                    <TableCell align="center"><FaComments size={25} /></TableCell>
+                    <TableCell align="center"><FaComments size={25} onClick={() => this.props.renderChat.renderChat(issue._id, issue.title)}/></TableCell>
                     <TableCell align="center">{issue.customer}</TableCell>
                     <TableCell align="center">{issue.status}</TableCell>
                     <TableCell align="center">{issue.createdAt}</TableCell>

@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const Organization = require('../Models/Organization');
 const Event = require('../Models/Event');
+const Message = require('../Models/Message')
 
 /* ALL READ ------------ ALL READS   -------------------- */
 
@@ -19,16 +20,17 @@ router.get("/users", async (req,res) => {
         const users = await User.find()
         res.send(users)
     } catch{
-        console.log(err)
+        console.log("users error")
     }
     
 });
+//Get one user by Email
 router.get("/user/:email", async (req,res) => {
     try{
         const user = await User.findOne({"email": req.params.email})
         res.send(user)
     } catch{
-        console.log("oops")
+        console.log("user retrieval error")
     }
     
 });
@@ -38,16 +40,16 @@ router.get("/alerts", async (req,res) => {
         const alerts = await Alert.find();
         res.send(alerts)
     } catch{
-        console.log(err)
+        console.log("alerts error")
     }
     
 });
 //Get User image
 router.get("/image/:id", async (req, res) =>{
     try{
-        const img = await ProfileImage.findOne({"_id": id});
+        const img = await ProfileImage.findOne({"_id": req.params.id});
     } catch{
-        console.log(err)
+        console.log("image error")
     }
 });
 //Get all issues
@@ -56,7 +58,18 @@ router.get("/issues", async (req,res) => {
         const issues = await Issue.find()
         res.send(issues)
     } catch{
-        console.log(err)
+        console.log("issues error")
+    }
+
+});
+//Get messages for the specified room
+router.get("/messages/:room", async (req,res) => {
+    try{
+        const messages = await Message.find({"room": req.params.room})
+        res.send(messages)
+        console.log(messages)
+    } catch{
+        console.log("messages error")
     }
 
 });
